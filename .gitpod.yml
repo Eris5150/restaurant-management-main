@@ -1,14 +1,17 @@
 image: maven:3.8.5-openjdk-17
 
 tasks:
-  - init: mvn clean install
-    command: mvn spring-boot:run
+  - name: Build and Run
+    command: |
+      mvn clean install
+      mvn spring-boot:run &
+      gp await-port 8080
+      gp preview $(gp url 8080) --external
 
 ports:
   - port: 8080
-    onOpen: open-preview
+    onOpen: ignore
     visibility: public
-
 
 vscode:
   extensions:
