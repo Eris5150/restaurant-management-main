@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: header}"></head>
+
+
+<body>
+<nav>
+	<ul>
+		<li><a th:href="@{/}">Dashboard</a></li>
+		<li><a th:href="@{/menu}">Manage Menu</a></li>
+		<li><a th:href="@{/inventory}">Manage Inventory</a></li>
+		<li><a th:href="@{/order}">Manage Orders</a></li>
+		<li><a th:href="@{/reviews}">Reviews</a></li>
+		<li th:if="${#authentication.name == 'anonymousUser'}">
+			<a th:href="@{/login}">Login</a>
+		</li>
+		<li th:if="${#authentication.name != 'anonymousUser'}">
+			Welcome, <span th:text="${#authentication.principal.username}">User</span>
+			(<span th:text="${#authentication.authorities[0].authority.replace('ROLE_', '')}">Role</span>) |
+			<a th:href="@{/logout}">Logout</a>
+		</li>
+	</ul>
+</nav>
+	<header>
+		<h1>Restaurant Management Dashboard</h1>
+		<p>Welcome to the restaurant management system. Use this dashboard to manage daily operations, update the menu,
+			and track orders.</p>
+	</header>
+
+	<main>
+		<section>
+			<h2>Manage Menu</h2>
+			<p>View and update the menu to ensure all items are current and accurate. This section allows you to add new
+				dishes, update descriptions, and adjust pricing.</p>
+			<a th:href="@{/menu}" class="button">Go to Menu Management</a>
+		</section>
+
+		<section>
+			<h2>Create and Manage Orders</h2>
+			<p>Create new orders and keep track of current orders. Use this section to handle customer orders and ensure
+				they are fulfilled accurately and on time.</p>
+			<a th:href="@{/order}" class="button">Go to Order</a>
+		</section>
+
+
+		 <!-- New Inventory Management Section -->
+        <section>
+            <h2>Manage Inventory</h2>
+            <p>Track and manage inventory items to ensure stock levels are maintained. Use this section to add new items,
+                update quantities, and monitor stock availability.</p>
+            <a th:href="@{/inventory}" class="button">Go to Inventory Management</a>
+        </section>
+
+	</main>
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

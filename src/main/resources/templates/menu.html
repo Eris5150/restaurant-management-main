@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/}">Dashboard</a></li>
+        <li><a th:href="@{/menu}">Manage Menu</a></li>
+        <li><a th:href="@{/inventory}">Manage Inventory</a></li>
+        <li><a th:href="@{/order}">Manage Orders</a></li>
+        <li><a th:href="@{/reviews}">Reviews</a></li>
+        <li th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Login</a></li>
+        <li class="username" th:if="${#authentication.name != 'anonymousUser'}">
+            Welcome, <span th:text="${#authentication.principal.username}">User</span>
+            (<span th:text="${#authentication.authorities[0].authority.replace('ROLE_', '')}">Role</span>) |
+            <a th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<header>
+    <h1>Menu Management</h1>
+    <p>Manage and update the restaurant menu. Add new items, modify existing ones, or remove items that are no longer available.</p>
+</header>
+
+<main>
+    
+
+    <!-- Add / Update Form -->
+    <section class="form-card">
+        <h2 class="page-title">Add / Update Menu Item</h2>
+
+        <form method="post" th:action="@{/insertMenuItem}" th:object="${menuItem}" onsubmit="return validateForm()">
+            <input type="hidden" th:field="*{id}" />
+
+            <label for="name">Name:</label>
+            <input type="text" th:field="*{name}" id="name" placeholder="e.g. Grilled Chicken Sandwich" />
+
+            <label for="description">Description:</label>
+            <input type="text" th:field="*{description}" id="description" placeholder="Short description of the item" />
+
+            <label for="price">Price:</label>
+            <input type="text" th:field="*{price}" id="price" placeholder="e.g. 12.99" />
+
+            <label for="category">Category:</label>
+            <select th:field="*{category}" id="category">
+                <option value="" disabled>Select Category</option>
+                <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+            </select>
+
+            <div class="remember-me">
+                <input type="checkbox" th:field="*{available}" id="available">
+                <label for="available">Available</label>
+            </div>
+
+            <button class="button" type="submit">Add/Update Item</button>
+        </form>
+
+        <div class="flash-message error" th:if="${message}" th:text="${message}"></div>
+    </section>
+
+    <!-- Menu Items Table -->
+    <h2 class="page-title">Our Menu</h2>
+    <table th:if="${menuItemList != null && !#lists.isEmpty(menuItemList)}">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Available</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="s : ${menuItemList}">
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.description}"></td>
+                <td th:text="${s.price}"></td>
+                <td th:text="${s.category}"></td>
+                <td th:text="${s.available ? 'Yes' : 'No'}"></td>
+                <td>
+                    <a class="button" th:href="@{/editMenuItemById/{id}(id=${s.id})}">Edit</a>
+                </td>
+                <td>
+                    <a class="button danger" th:href="@{/deleteMenuItemById/{id}(id=${s.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+
+<!-- JavaScript Validation -->
+<script>
+    function validateForm() {
+        const name = document.getElementById("name").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const price = document.getElementById("price").value.trim();
+        const category = document.getElementById("category").value;
+
+        if (!name || !description || !price || !category) {
+            alert("All fields (Name, Description, Price, Category) are required!");
+            return false;
+        }
+
+        if (isNaN(price) || price <= 0) {
+            alert("Price must be a positive number.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

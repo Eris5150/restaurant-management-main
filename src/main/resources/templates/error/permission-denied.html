@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body>
+<nav>
+    <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Login</a></li>
+        <li th:if="${#authentication.name != 'anonymousUser'}"><a th:href="@{/logout}">Logout</a></li>
+    </ul>
+</nav>
+
+<main>
+    <section class="form-card" style="text-align:center;">
+        <h2 style="color: #dc3545; font-size: 2.2em; margin-bottom: 10px;">Access Denied</h2>
+        <p style="font-size: 1.2em; color: #555;">
+            You don’t have permission to view this page.
+        </p>
+        <p style="color: #777; font-size: 1em; margin-bottom: 25px;">
+            This action requires a higher-level role, like <strong>GM</strong>.
+        </p>
+        <a href="/" class="button">Go to Dashboard</a>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

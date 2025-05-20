@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{fragments/header :: header}"></head>
+
+<body>
+<nav>
+    <ul>
+        <li><a th:href="@{/}">Dashboard</a></li>
+        <li><a th:href="@{/menu}">Manage Menu</a></li>
+        <li><a th:href="@{/inventory}">Manage Inventory</a></li>
+        <li><a th:href="@{/order}">Manage Orders</a></li>
+        <li><a th:href="@{/reviews}">Reviews</a></li>
+        <li th:if="${#authentication.name == 'anonymousUser'}">
+            <a th:href="@{/login}">Login</a>
+        </li>
+        <li class="username" th:if="${#authentication.name != 'anonymousUser'}">
+            Welcome, <span th:text="${#authentication.principal.username}">User</span>
+            (<span th:text="${#authentication.authorities[0].authority.replace('ROLE_', '')}">Role</span>) |
+            <a th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<header>
+    <h1>Inventory Management</h1>
+    <p class="page-subtext">Add new inventory items, or manage existing stock and pricing.</p>
+</header>
+
+<main>
+    <!-- Form wrapped in styled card -->
+    <section class="form-card">
+        <form th:action="@{/insertInventoryItem}" method="post" th:object="${inventoryItem}">
+            <h2 class="dynamic-form-title">Add or Edit Inventory Item</h2>
+            <input type="hidden" th:field="*{id}"/>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" th:field="*{quantity}" min="0" required>
+
+            <label for="unit">Unit:</label>
+            <select id="unit" th:field="*{unit}" required>
+                <option value="" disabled selected>Select a unit</option>
+                <option th:each="unit : ${units}" th:value="${unit}" th:text="${unit}"></option>
+            </select>
+
+            <label for="pricePerUnit">Price per Unit:</label>
+            <input type="number" step="0.01" id="pricePerUnit" th:field="*{pricePerUnit}" min="0" required>
+
+            <button type="submit" class="button">Save Inventory Item</button>
+        </form>
+    </section>
+
+    <!-- Success message -->
+    <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+
+    <!-- Inventory Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Inventory ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Price Per Unit</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${inventoryItemList}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.unit}"></td>
+                <td th:text="${#numbers.formatDecimal(item.pricePerUnit, 2, 2)}"></td>
+                <td><a class="button" th:href="@{/editInventoryItemById/{id}(id=${item.id})}">Edit</a></td>
+                <td><a class="button danger" th:href="@{/deleteInventoryItemById/{id}(id=${item.id})}">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+
+</html>
