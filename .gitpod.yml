@@ -1,0 +1,14 @@
+image: maven:3.8.5-openjdk-17
+
+tasks:
+  - init: mvn clean install
+    command: mvn spring-boot:run
+
+ports:
+  - port: 8080
+    onOpen: open-preview
+
+vscode:
+  extensions:
+    - vscjava.vscode-spring-boot
+    - vscjava.vscode-java-pack
