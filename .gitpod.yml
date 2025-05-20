@@ -4,7 +4,7 @@ tasks:
   - name: Build and Run
     command: |
       mvn clean install
-      mvn spring-boot:run &
+      mvn spring-boot:run & 
       gp await-port 8080
       gp preview $(gp url 8080) --external
 
@@ -15,5 +15,4 @@ ports:
 
 vscode:
   extensions:
-    - vscjava.vscode-spring-boot
     - vscjava.vscode-java-pack
