@@ -1,73 +1,67 @@
 # 🍽️ Restaurant Management System
 
-A demo restaurant management web application built with **Spring Boot**, **Thymeleaf**, **Spring Security**, and **H2 in-memory database**.
-
-This project was created for educational and portfolio purposes. Users can try out the full application logic without needing to install anything locally.
-
----
-
-## 🚀 Launch Your Own Sandbox (Gitpod)
-
-Click below to launch your **own personal instance** of the app in the cloud using Gitpod:
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Eris5150/restaurant-management-main)
-
-🟢 You don’t need to install anything — just wait a few seconds for the project to build and run.
+A simple restaurant management web app built with **Spring Boot**, **Thymeleaf**, and **Spring Security**, using an **H2 in-memory database**.  
+It includes login, role-based access, and CRUD functionality — made for learning and portfolio presentation.
 
 ---
 
+## 🚀 Run Locally
 
-## 🔐 Demo Credentials
-- Log in using:
-- General Manager (Permission for everything)
-  - **Email:** general_manager@restaurant.ca
-  - **Password:** 12345
-- Assistan General Manager (Limited Permissions)
-    - **Email:** assistant_manager@restaurant.ca
-    - **Password:** 12345
+git clone https://github.com/Eris5150/restaurant-management-main.git
+cd restaurant-management-main
+mvn spring-boot:run
+Then open:
+👉 http://localhost:8080
 
-## 🛠 Troubleshooting: Browser Didn’t Open Automatically?
+🔐 Demo Accounts
+General Manager (Full Access)
 
-## ❓ Browser Didn’t Open Automatically?
+Email: general_manager@restaurant.ca
 
-If the app didn’t open in a new browser tab, follow these steps:
+Password: 12345
 
-### 1. ✅ Allow Pop-ups for Gitpod
+Assistant Manager (Limited Access)
 
-Sometimes your browser blocks Gitpod from opening the app automatically.
+Email: assistant_manager@restaurant.ca
 
-#### On Chrome:
-- Click the 🔒 icon in the address bar
-- Select **"Site settings"**
-- Under **"Pop-ups and redirects"**, choose **Allow**
-- Refresh the page
+Password: 12345
 
-Or go to:  
-chrome://settings/content/popups
-Add: 
-[*.]gitpod.io
+🧱 Tech Stack
+Java 17
 
-### 2. 🌐 Open the App Manually
+Spring Boot
 
-If it still doesn’t open:
+Spring Security
 
-- In Gitpod, click the **PORTS** tab (bottom right)
-- Look for **port 8080**
-- Click the **🔗 link or globe icon** next to it — your app will open in a new tab
+Thymeleaf
 
-Example URL:  
-https://8080-<your-workspace-id>.gitpod.io/
+H2 Database
 
-## 🧪 Technologies Used
+Maven
 
-- Java 17
-- Spring Boot
-- Spring Security
-- Thymeleaf
-- H2 (in-memory DB)
-- Maven
-- Gitpod
+🧠 Features
+Login and logout system
+
+Two roles: General Manager & Assistant Manager
+
+CRUD operations for menu, orders, and staff
+
+In-memory H2 database (resets on restart)
+
+🧰 H2 Console (Optional)
+Visit: http://localhost:8080/h2-console
+
+JDBC URL: jdbc:h2:mem:testdb
+
+Username: sa
+
+Password: (leave blank)
+
+👤 Author
+Erick Rodríguez
+🌐 erickrodriguez.net
+💻 github.com/Eris5150
 
 ---
 
-Enjoy exploring the app!
+Would you like me to make a matching short version for the **AI Diet Maker** too — in the same simplifie
