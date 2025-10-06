@@ -1,67 +1,134 @@
 # 🍽️ Restaurant Management System
 
-A simple restaurant management web app built with **Spring Boot**, **Thymeleaf**, and **Spring Security**, using an **H2 in-memory database**.  
-It includes login, role-based access, and CRUD functionality — made for learning and portfolio presentation.
+A **Spring Boot + Thymeleaf** web application that simulates a simple restaurant management system.  
+It allows administrators to manage menu items, inventory, orders, and customer reviews in one dashboard.  
 
 ---
 
-## 🚀 Run Locally
+## 🚀 Features
 
-git clone https://github.com/Eris5150/restaurant-management-main.git
-cd restaurant-management-main
-mvn spring-boot:run
-Then open:
-👉 http://localhost:8080
+✅ **Authentication & Roles**
+- Two roles: `General Manager (GM)` and `Assistant General Manager (AGM)`  
+- Secure login/logout with Spring Security  
+- Predefined demo accounts included  
 
-🔐 Demo Accounts
-General Manager (Full Access)
+✅ **Menu Management**
+- Add, edit, delete, and list menu items  
+- Categories: appetizers, main courses, desserts, and drinks  
 
-Email: general_manager@restaurant.ca
+✅ **Inventory Management**
+- Track inventory quantity, units, and prices  
+- Prevent over-ordering and view all stock items  
 
-Password: 12345
+✅ **Order Management**
+- Create and update purchase orders for inventory items  
+- View and edit order status (Pending, Completed, Cancelled)  
 
-Assistant Manager (Limited Access)
+✅ **Reviews Section**
+- Displays customer feedback and ratings  
 
-Email: assistant_manager@restaurant.ca
+---
 
-Password: 12345
+## 🧩 Tech Stack
 
-🧱 Tech Stack
-Java 17
+| Layer | Technology |
+|-------|-------------|
+| Backend | Spring Boot 3, Spring MVC, Spring Security |
+| Frontend | Thymeleaf, HTML5, CSS3 |
+| Database | H2 (in-memory) |
+| Build Tool | Maven |
+| Language | Java 17+ |
 
-Spring Boot
+---
 
-Spring Security
+## 🧠 Project Structure
 
-Thymeleaf
+src/
+├── main/
+│ ├── java/com/example/project/
+│ │ ├── controller/ # Web controllers
+│ │ ├── entity/ # JPA entities
+│ │ ├── repository/ # Spring Data repositories
+│ │ └── security/ # Security config and services
+│ └── resources/
+│ ├── static/css/ # Styles
+│ ├── templates/ # Thymeleaf views
+│ ├── schema.sql # Database schema
+│ ├── data.sql # Sample data
+│ └── application.properties
+└── test/ # Unit tests
 
-H2 Database
+---
 
-Maven
+## 🧑‍💻 How to Run Locally
 
-🧠 Features
-Login and logout system
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/restaurant-management.git
+cd restaurant-management
 
-Two roles: General Manager & Assistant Manager
+2️⃣ Run with Maven
 
-CRUD operations for menu, orders, and staff
+Make sure you have Java 17+ and Maven installed.
 
-In-memory H2 database (resets on restart)
+Alternatively, build the JAR:
+
+mvn clean package
+java -jar target/restaurant-management-0.0.1-SNAPSHOT.jar
+
+http://localhost:8080
+
+
+🔐 Demo Credentials
+Role	Email	Password
+General Manager	general_manager@restaurant.ca
+	12345
+Assistant GM	assistant_manager@restaurant.ca
+	12345
+
+You can log in with either role and explore the dashboard.
 
 🧰 H2 Console (Optional)
-Visit: http://localhost:8080/h2-console
+
+You can view the in-memory database from:
+
+http://localhost:8080/h2-console
+
+
+Use these settings:
 
 JDBC URL: jdbc:h2:mem:testdb
-
 Username: sa
+Password: password
 
-Password: (leave blank)
+📦 Default Data
 
-👤 Author
-Erick Rodríguez
-🌐 erickrodriguez.net
-💻 github.com/Eris5150
+The app loads sample data automatically:
 
----
+20+ Menu Items
 
-Would you like me to make a matching short version for the **AI Diet Maker** too — in the same simplifie
+50+ Inventory Items
+
+Multiple Orders
+
+Several Customer Reviews
+
+Predefined Users and Roles
+
+📸 Pages Overview
+Page	URL	Description
+Login	/login	Secure login for GM/AGM
+Dashboard	/	Quick overview
+Menu	/menu	Manage menu items
+Inventory	/inventory	Manage stock
+Orders	/order	Manage supply orders
+Reviews	/reviews	View customer feedback
+🧹 Resetting the App
+
+Since it uses an in-memory H2 database, all data resets when the app restarts.
+You can edit data.sql to preload your own demo content.
+
+📄 License
+
+This project is provided for educational and portfolio purposes.
+You’re free to reuse or modify it as long as attribution remains.
