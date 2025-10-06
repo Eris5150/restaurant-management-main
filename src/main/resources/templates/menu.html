@@ -3,6 +3,7 @@
 <head th:replace="~{fragments/header :: header}"></head>
 <body>
 
+<!-- =========================== Navigation Bar =========================== -->
 <nav>
     <ul>
         <li><a th:href="@{/}">Dashboard</a></li>
@@ -10,6 +11,8 @@
         <li><a th:href="@{/inventory}">Manage Inventory</a></li>
         <li><a th:href="@{/order}">Manage Orders</a></li>
         <li><a th:href="@{/reviews}">Reviews</a></li>
+
+        <!-- Auth-aware links -->
         <li th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Login</a></li>
         <li class="username" th:if="${#authentication.name != 'anonymousUser'}">
             Welcome, <span th:text="${#authentication.principal.username}">User</span>
@@ -19,21 +22,23 @@
     </ul>
 </nav>
 
+<!-- =========================== Page Header =========================== -->
 <header>
     <h1>Menu Management</h1>
     <p>Manage and update the restaurant menu. Add new items, modify existing ones, or remove items that are no longer available.</p>
 </header>
 
+<!-- =========================== Main Content =========================== -->
 <main>
     
-
-    <!-- Add / Update Form -->
+    <!-- Add / Update Form (Thymeleaf-bound to menuItem) -->
     <section class="form-card">
         <h2 class="page-title">Add / Update Menu Item</h2>
 
         <form method="post" th:action="@{/insertMenuItem}" th:object="${menuItem}" onsubmit="return validateForm()">
             <input type="hidden" th:field="*{id}" />
 
+            <!-- Basic fields -->
             <label for="name">Name:</label>
             <input type="text" th:field="*{name}" id="name" placeholder="e.g. Grilled Chicken Sandwich" />
 
@@ -43,12 +48,14 @@
             <label for="price">Price:</label>
             <input type="text" th:field="*{price}" id="price" placeholder="e.g. 12.99" />
 
+            <!-- Category selection -->
             <label for="category">Category:</label>
             <select th:field="*{category}" id="category">
                 <option value="" disabled>Select Category</option>
                 <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
             </select>
 
+            <!-- Availability toggle -->
             <div class="remember-me">
                 <input type="checkbox" th:field="*{available}" id="available">
                 <label for="available">Available</label>
@@ -57,6 +64,7 @@
             <button class="button" type="submit">Add/Update Item</button>
         </form>
 
+        <!-- Server-side feedback -->
         <div class="flash-message error" th:if="${message}" th:text="${message}"></div>
     </section>
 
@@ -75,6 +83,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Row binding for each item -->
             <tr th:each="s : ${menuItemList}">
                 <td th:text="${s.name}"></td>
                 <td th:text="${s.description}"></td>
@@ -92,7 +101,7 @@
     </table>
 </main>
 
-<!-- JavaScript Validation -->
+<!-- =========================== Client-Side Validation =========================== -->
 <script>
     function validateForm() {
         const name = document.getElementById("name").value.trim();
@@ -100,6 +109,7 @@
         const price = document.getElementById("price").value.trim();
         const category = document.getElementById("category").value;
 
+        // Basic client-side checks to complement server validation
         if (!name || !description || !price || !category) {
             alert("All fields (Name, Description, Price, Category) are required!");
             return false;
@@ -114,6 +124,7 @@
     }
 </script>
 
+<!-- =========================== Footer =========================== -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

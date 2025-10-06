@@ -10,15 +10,19 @@ import ca.sheridancollege.project.beans.Order;
 import ca.sheridancollege.project.beans.InventoryItem;
 import ca.sheridancollege.project.database.DatabaseAccess;
 
-
 import java.util.List;
 
+/**
+ * Handles order management operations including creation,
+ * editing, updating, and listing orders.
+ */
 @Controller
 public class OrderController {
 
     @Autowired
-    private DatabaseAccess da;
+    private DatabaseAccess da; // Data access layer for order operations
 
+    /** Displays all existing orders. */
     @GetMapping("/order")
     public String orderPage(Model model) {
         List<Order> orderList = da.getOrderList();
@@ -26,6 +30,7 @@ public class OrderController {
         return "order";
     }
 
+    /** Loads the form for creating a new order. */
     @GetMapping("/createOrder")
     public String createOrderPage(Model model) {
         model.addAttribute("order", new Order());
@@ -33,6 +38,7 @@ public class OrderController {
         return "createOrder";
     }
 
+    /** Handles form submission for a new order. */
     @PostMapping("/submitOrder")
     public String submitOrder(@ModelAttribute Order order, RedirectAttributes redirectAttributes, Model model) {
         if (order.getInventoryItem() != null && order.getInventoryItem().getId() != null && order.getQuantityToOrder() > 0) {
@@ -47,6 +53,7 @@ public class OrderController {
         return "createOrder";
     }
 
+    /** Loads an order for editing by ID. */
     @GetMapping("/editOrder/{id}")
     public String editOrderPage(@PathVariable("id") Integer id, Model model) {
         Order order = da.getOrderById(id);
@@ -59,14 +66,13 @@ public class OrderController {
         return "redirect:/order";
     }
 
+    /** Updates an existing order with new details. */
     @PostMapping("/updateOrder")
     public String updateOrder(@ModelAttribute Order order, RedirectAttributes redirectAttributes) {
-        // Fetch full details of the inventory item
         InventoryItem fullItem = da.getInventoryItemById(order.getInventoryItem().getId());
         order.setInventoryItem(fullItem);
         da.updateOrder(order);
         redirectAttributes.addFlashAttribute("message", "Order updated successfully.");
         return "redirect:/order";
     }
-
 }

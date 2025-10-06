@@ -1,10 +1,14 @@
+<!-- =========================== Navigation Bar =========================== -->
 <nav>
     <ul>
+        <!-- Primary navigation links -->
         <li><a th:href="@{/}">Dashboard</a></li>
         <li><a th:href="@{/menu}">Menu</a></li>
         <li><a th:href="@{/order}">Orders</a></li>
         <li><a th:href="@{/inventory}">Inventory</a></li>
         <li><a th:href="@{/reviews}">Reviews</a></li>
+
+        <!-- Conditional authentication links -->
         <li th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Login</a></li>
         <li th:if="${#authentication.name != 'anonymousUser'}"><a th:href="@{/logout}">Logout</a></li>
     </ul>

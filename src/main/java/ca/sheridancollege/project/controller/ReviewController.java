@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+/**
+ * Handles requests for displaying customer reviews.
+ */
 @Controller
 public class ReviewController {
-    @Autowired
-    private DatabaseAccess da;
 
+    @Autowired
+    private DatabaseAccess da; // Data access layer for reviews
+
+    /** Displays all reviews on the reviews page. */
     @GetMapping("/reviews")
     public String reviews(Model model) {
         List<Review> reviewList = da.getReviewsList();

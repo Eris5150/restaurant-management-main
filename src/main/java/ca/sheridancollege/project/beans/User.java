@@ -5,16 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Represents a system user with login credentials and account status.
+ */
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class User {
-    private Long userId;
+
+    private Long userId; // Database identifier
 
     @NonNull
-    private String email;
+    private String email; // User's login email
+
     @NonNull
-    private String encryptedPassword;
+    private String encryptedPassword; // Hashed password for authentication
+
     @NonNull
-    private Boolean enabled;
+    private Boolean enabled; // Indicates if the account is active
 }

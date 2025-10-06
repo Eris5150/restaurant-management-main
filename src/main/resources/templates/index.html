@@ -3,8 +3,9 @@
 
 <head th:replace="~{fragments/header :: header}"></head>
 
-
 <body>
+
+<!-- =========================== Navigation Bar =========================== -->
 <nav>
 	<ul>
 		<li><a th:href="@{/}">Dashboard</a></li>
@@ -12,6 +13,8 @@
 		<li><a th:href="@{/inventory}">Manage Inventory</a></li>
 		<li><a th:href="@{/order}">Manage Orders</a></li>
 		<li><a th:href="@{/reviews}">Reviews</a></li>
+
+		<!-- Conditional authentication links -->
 		<li th:if="${#authentication.name == 'anonymousUser'}">
 			<a th:href="@{/login}">Login</a>
 		</li>
@@ -22,40 +25,53 @@
 		</li>
 	</ul>
 </nav>
-	<header>
-		<h1>Restaurant Management Dashboard</h1>
-		<p>Welcome to the restaurant management system. Use this dashboard to manage daily operations, update the menu,
-			and track orders.</p>
-	</header>
 
-	<main>
-		<section>
-			<h2>Manage Menu</h2>
-			<p>View and update the menu to ensure all items are current and accurate. This section allows you to add new
-				dishes, update descriptions, and adjust pricing.</p>
-			<a th:href="@{/menu}" class="button">Go to Menu Management</a>
-		</section>
+<!-- =========================== Page Header =========================== -->
+<header>
+	<h1>Restaurant Management Dashboard</h1>
+	<p>
+		Welcome to the restaurant management system. Use this dashboard to manage daily operations,
+		update the menu, and track orders efficiently.
+	</p>
+</header>
 
-		<section>
-			<h2>Create and Manage Orders</h2>
-			<p>Create new orders and keep track of current orders. Use this section to handle customer orders and ensure
-				they are fulfilled accurately and on time.</p>
-			<a th:href="@{/order}" class="button">Go to Order</a>
-		</section>
+<!-- =========================== Main Dashboard Sections =========================== -->
+<main>
 
+	<!-- Menu Management Overview -->
+	<section>
+		<h2>Manage Menu</h2>
+		<p>
+			View and update the restaurant menu. Add new dishes, modify descriptions, and adjust pricing
+			to keep offerings up to date.
+		</p>
+		<a th:href="@{/menu}" class="button">Go to Menu Management</a>
+	</section>
 
-		 <!-- New Inventory Management Section -->
-        <section>
-            <h2>Manage Inventory</h2>
-            <p>Track and manage inventory items to ensure stock levels are maintained. Use this section to add new items,
-                update quantities, and monitor stock availability.</p>
-            <a th:href="@{/inventory}" class="button">Go to Inventory Management</a>
-        </section>
+	<!-- Orders Management Overview -->
+	<section>
+		<h2>Create and Manage Orders</h2>
+		<p>
+			Create new orders and track existing ones. Use this section to ensure customer orders
+			are processed accurately and on time.
+		</p>
+		<a th:href="@{/order}" class="button">Go to Order</a>
+	</section>
 
-	</main>
+	<!-- Inventory Management Overview -->
+	<section>
+		<h2>Manage Inventory</h2>
+		<p>
+			Track and manage stock levels. Add new inventory items, update quantities, and monitor
+			availability to maintain smooth operations.
+		</p>
+		<a th:href="@{/inventory}" class="button">Go to Inventory Management</a>
+	</section>
 
-	<div th:replace="~{fragments/footer :: footer}"></div>
+</main>
+
+<!-- =========================== Footer =========================== -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
-
 </html>

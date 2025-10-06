@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header">
+    <!-- =========================== Meta Configuration =========================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =========================== Stylesheets =========================== -->
+    <!-- Links the global stylesheet for consistent layout and design -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
+    <!-- =========================== Dynamic Page Title =========================== -->
+    <!-- Displays a page-specific title when provided; defaults to 'Restaurant Management' -->
     <title th:text="${pageTitle}">Restaurant Management</title>
 </head>
 </html>

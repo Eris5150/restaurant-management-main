@@ -1,3 +1,12 @@
+-- ============================================================
+-- Seed Data for Restaurant Management System
+-- Purpose: Populate menu items, inventory, orders, reviews, and auth tables
+-- Note: Statements are ordered to respect FK dependencies in typical schemas.
+-- ============================================================
+
+-- -------------------------------
+-- Menu Items
+-- -------------------------------
 -- Insert additional menu items
 INSERT INTO menu_items (name, description, price, category, available) VALUES
 ('Bruschetta', 'Grilled bread topped with fresh tomatoes, basil, and olive oil', 6.50, 'APPETIZER', TRUE),
@@ -28,7 +37,9 @@ INSERT INTO menu_items (name, description, price, category, available) VALUES
 ('Chocolate Lava Cake', 'Warm chocolate cake with a gooey center', 7.99, 'DESSERT', TRUE),
 ('Cheesecake', 'Creamy cheesecake with a graham cracker crust', 6.99, 'DESSERT', TRUE);
 
-
+-- -------------------------------
+-- Inventory Items
+-- -------------------------------
 -- Insert inventory items
 INSERT INTO inventory_items (name, quantity, unit, price_per_unit) VALUES
 -- Produce
@@ -134,8 +145,9 @@ INSERT INTO inventory_items (name, quantity, unit, price_per_unit) VALUES
 ('Plastic Wrap', 80, 'ROLLS', 1.50),
 ('Paper Towels', 120, 'ROLLS', 1.20);
 
-
-
+-- -------------------------------
+-- Orders
+-- -------------------------------
 -- Insert orders
 INSERT INTO orders (inventory_item_id, quantity_to_order, order_date, status) VALUES
 (1, 5, '2024-11-01', 'Pending'),
@@ -159,6 +171,9 @@ INSERT INTO orders (inventory_item_id, quantity_to_order, order_date, status) VA
 (7, 3, '2024-11-19', 'Completed'),
 (8, 17, '2024-11-20', 'Pending');
 
+-- -------------------------------
+-- Reviews
+-- -------------------------------
 INSERT INTO reviews (author, description, rating) VALUES
 ('John Doe', 'Amazing food and friendly staff. Highly recommend this place!', 'EXCELLENT'),
 ('Jane Smith', 'Service was a bit slow, but the meal was decent.', 'AVERAGE'),
@@ -176,23 +191,24 @@ INSERT INTO reviews (author, description, rating) VALUES
 ('Leo Ford', 'Food was as expected. Nothing to complain about.', 'GOOD'),
 ('Mia Clarke', 'Outstanding flavors and lovely presentation!', 'EXCELLENT');
 
-
-
+-- -------------------------------
+-- Security (Users, Roles, User↔Role)
+-- -------------------------------
+-- Users (BCrypt hash corresponds to a known test password)
 INSERT INTO sec_user (email, encryptedPassword, enabled)
 VALUES ('general_manager@restaurant.ca', '$2a$12$ckFKmAsZSuN4IqwKT6HT0u.IbLRpq8ac/R9GLUtXj74qnPoPhwQ3q', 1);
 
 INSERT INTO sec_user (email, encryptedPassword, enabled)
 VALUES ('assistant_manager@restaurant.ca', '$2a$12$ckFKmAsZSuN4IqwKT6HT0u.IbLRpq8ac/R9GLUtXj74qnPoPhwQ3q', 1);
 
-
+-- Roles
 INSERT INTO sec_role (roleName) VALUES ('ROLE_GM');
 INSERT INTO sec_role (roleName) VALUES ('ROLE_AGM');
 
-
-
+-- User↔Role mappings
 INSERT INTO user_role (userId, roleId)
 VALUES (1, 1);
 
 INSERT INTO user_role (userId, roleId)
 VALUES (2, 2);
-
+-- ============================================================

@@ -1,11 +1,17 @@
-/* Basic reset */
+/* ==========================================================================
+   Global Stylesheet
+   Purpose: Defines layout, typography, and reusable UI components
+   for the restaurant management web app.
+   ========================================================================== */
+
+/* --------------------------- Reset and Base --------------------------- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Global Styles */
+/* Global look and feel */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #eef1f5;
@@ -13,7 +19,7 @@ body {
     padding: 20px;
 }
 
-/* Navigation Bar */
+/* --------------------------- Navigation --------------------------- */
 nav {
     background-color: #2c3e50;
     padding: 15px;
@@ -22,6 +28,7 @@ nav {
     color: white;
 }
 
+/* Navigation menu alignment and style */
 nav ul {
     list-style: none;
     display: flex;
@@ -45,7 +52,7 @@ nav ul li a:hover {
     color: #b0c4de;
 }
 
-/* Header */
+/* --------------------------- Header --------------------------- */
 header {
     text-align: center;
     padding: 40px;
@@ -62,10 +69,9 @@ header h1 {
 header p {
     font-size: 1.2em;
     font-weight: 300;
-    color: #ffffff;
 }
 
-/* Section Titles */
+/* --------------------------- Section Titles --------------------------- */
 .menu-section-title,
 .page-title,
 .dynamic-form-title {
@@ -85,7 +91,7 @@ header p {
     margin-bottom: 30px;
 }
 
-/* Main Content */
+/* --------------------------- Main Layout --------------------------- */
 main {
     max-width: 900px;
     margin: 0 auto;
@@ -114,13 +120,13 @@ main p {
     color: #555;
 }
 
-/* Table Styles */
+/* --------------------------- Tables --------------------------- */
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    font-size: 1em;
     background-color: #ffffff;
+    font-size: 1em;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
@@ -136,8 +142,8 @@ table td {
 table th {
     background-color: #4b6587;
     color: #ffffff;
-    font-weight: 600;
     text-transform: uppercase;
+    font-weight: 600;
 }
 
 table tr:hover {
@@ -155,15 +161,15 @@ table td a:hover {
     text-decoration: underline;
 }
 
-/* Buttons */
+/* --------------------------- Buttons --------------------------- */
 .button {
     display: inline-block;
     padding: 10px 20px;
     background-color: #3498db;
     color: #ffffff;
     font-weight: 600;
-    text-decoration: none;
     border-radius: 4px;
+    text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
@@ -171,27 +177,27 @@ table td a:hover {
     background-color: #2980b9;
 }
 
+/* Destructive action button */
 .button.danger {
     background-color: #dc3545;
     color: white;
-    padding: 10px 20px;
     border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
-    display: inline-block;
 }
 
 .button.danger:hover {
     background-color: #c82333;
 }
 
+/* Button alignment helper */
 .center {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-/* Form Styling */
+/* --------------------------- Forms --------------------------- */
 form {
     max-width: 600px;
     margin: 0 auto;
@@ -219,6 +225,7 @@ form label {
     color: #333;
 }
 
+/* Primary form button */
 form button {
     display: block;
     width: 100%;
@@ -242,52 +249,32 @@ form button:active {
     background-color: #1e7e34;
 }
 
-/* Login-specific input fields */
+/* Login form specifics */
 .login-form input[type="email"],
 .login-form input[type="password"] {
-    width: 100%;
-    padding: 14px;
-    font-size: 1em;
-    margin-top: 8px;
-    margin-bottom: 20px;
     border-radius: 6px;
     border: 1px solid #ccc;
 }
 
-/* Centered Remember Me row */
+/* Remember Me row alignment */
 .remember-me {
     display: flex;
-    justify-content: flex-start; /* or center if you want it in middle */
     align-items: center;
-    gap: 8px;
-    margin: 10px 0 25px 0;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 20px 0;
     font-size: 1em;
     color: #555;
 }
 
-.remember-me {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* change to center if needed */
-    gap: 10px;
-    margin: 20px 0;
-    font-size: 1em;
-}
-
+/* Checkbox inside remember-me */
 .remember-me input[type="checkbox"] {
     width: 16px;
     height: 16px;
-    margin: 0;
     cursor: pointer;
 }
 
-.remember-me label {
-    margin: 0;
-    font-weight: normal;
-    cursor: pointer;
-    line-height: 1;
-}
-/* Form Card Styling (create/edit/login) */
+/* --------------------------- Form Cards --------------------------- */
 .form-card {
     max-width: 600px;
     margin: 0 auto;
@@ -298,12 +285,12 @@ form button:active {
 }
 
 .form-card form label {
-    display: block;
     margin-top: 15px;
     font-weight: 600;
     color: #444;
 }
 
+/* Input elements inside form cards */
 .form-card form input,
 .form-card form select {
     width: 100%;
@@ -315,6 +302,7 @@ form button:active {
     font-size: 1em;
 }
 
+/* Form card submit button */
 .form-card .button {
     margin-top: 25px;
     width: 100%;
@@ -322,7 +310,6 @@ form button:active {
     font-size: 1.1em;
     font-weight: bold;
     background-color: #3498db;
-    border: none;
     border-radius: 6px;
     color: white;
     cursor: pointer;
@@ -333,7 +320,7 @@ form button:active {
     background-color: #2980b9;
 }
 
-/* Edit Mode Highlight */
+/* Highlight edit mode */
 .form-card .button.edit-mode {
     background-color: #ffc107;
     color: #333;
@@ -343,17 +330,16 @@ form button:active {
     background-color: #e0a800;
 }
 
-/* Flash Messages */
+/* --------------------------- Flash Messages --------------------------- */
 .alert-success,
 .flash-message.success {
     background-color: #d4edda;
     color: #155724;
     padding: 15px;
-    margin-bottom: 20px;
     border-radius: 5px;
     text-align: center;
-    font-weight: 500;
     border: 1px solid #c3e6cb;
+    margin-bottom: 20px;
 }
 
 .flash-message.error {
@@ -361,27 +347,26 @@ form button:active {
     color: #721c24;
     border: 1px solid #f5c6cb;
     padding: 15px;
-    margin-bottom: 20px;
     border-radius: 5px;
     text-align: center;
-    font-weight: 500;
+    margin-bottom: 20px;
 }
 
-/* Footer */
+/* --------------------------- Footer --------------------------- */
 footer {
-  background-color: #2c3e50;
-  color: #ffffff;
-  text-align: center;
-  padding: 15px;
-  font-size: 0.9em;
-  border-top: 1px solid #1a252f;
+    background-color: #2c3e50;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    border-top: 1px solid #1a252f;
 }
 
 footer a {
-  color: #b0c4de;
-  text-decoration: none;
+    color: #b0c4de;
+    text-decoration: none;
 }
 
 footer a:hover {
-  color: #ffffff;
+    color: #ffffff;
 }

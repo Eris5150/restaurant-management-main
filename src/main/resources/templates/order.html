@@ -4,6 +4,7 @@
 <head th:replace="~{fragments/header :: header}"></head>
 
 <body>
+<!-- =========================== Navigation Bar =========================== -->
 <nav>
     <ul>
         <li><a th:href="@{/}">Dashboard</a></li>
@@ -11,6 +12,7 @@
         <li><a th:href="@{/inventory}">Manage Inventory</a></li>
         <li><a th:href="@{/order}">Manage Orders</a></li>
         <li><a th:href="@{/reviews}">Reviews</a></li>
+        <!-- Auth-aware links (Login vs. Logout + username/role) -->
         <li th:if="${#authentication.name == 'anonymousUser'}">
             <a th:href="@{/login}">Login</a>
         </li>
@@ -22,13 +24,19 @@
     </ul>
 </nav>
 
+    <!-- =========================== Page Header =========================== -->
     <header>
         <h1>Order Management</h1>
+        <!-- Primary CTA to create a new order -->
         <a class="button" th:href="@{/createOrder}">Create New Order</a>
     </header>
 
+    <!-- =========================== Main Content =========================== -->
     <main>
+        <!-- Flash message for create/update actions -->
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+        <!-- Orders table: lists existing orders with key attributes and actions -->
         <table>
             <thead>
                 <tr>
@@ -42,6 +50,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Row binding for each Order in the model -->
                 <tr th:each="order : ${orderList}">
                     <td th:text="${order.id}"></td>
                     <td th:text="${order.inventoryItem.name}"></td>
@@ -50,6 +59,7 @@
                     <td th:text="${order.orderDate}"></td>
                     <td th:text="${#numbers.formatDecimal(order.totalCost, 2, 2)}"></td>
                     <td>
+                        <!-- Edit action navigates to order edit form -->
                         <a class="button" th:href="@{'/editOrder/' + ${order.id}}">Edit</a>
                     </td>
                 </tr>
@@ -57,6 +67,7 @@
         </table>
     </main>
 
+    <!-- =========================== Footer =========================== -->
     <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 

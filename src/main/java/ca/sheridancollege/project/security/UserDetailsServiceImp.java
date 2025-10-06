@@ -14,35 +14,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A service implementation for loading user-specific details required for authentication
- * in a Spring Security context. This class interacts with the database to retrieve user
- * information and associated roles for Spring Security's authentication process.
- *
- * This service extends the {@code UserDetailsService} interface provided by Spring Security.
- * It uses a {@code DatabaseAccess} object to query the database for user and role information.
+ * Custom UserDetailsService implementation for Spring Security.
+ * Loads user credentials and roles from the database for authentication.
  */
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
 
     @Autowired
     @Lazy
-    private DatabaseAccess da;
+    private DatabaseAccess da; // Injected data access for user lookup
 
+    /** Retrieves user details and granted authorities for authentication. */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ca.sheridancollege.project.beans.User user = da.findUserAccount(username);
         if (user == null) {
             System.out.println("User not found: " + username);
-            throw new UsernameNotFoundException("User " + username + "Was not found in the database");
+            throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
+
         List<String> roleNameList = da.getRolesById(user.getUserId());
         List<GrantedAuthority> grantList = new ArrayList<>();
+
         if (roleNameList != null) {
-            for (String role: roleNameList){
+            for (String role : roleNameList) {
                 grantList.add(new SimpleGrantedAuthority(role));
             }
         }
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getEncryptedPassword(), grantList);
-        return userDetails;
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getEncryptedPassword(),
+                grantList
+        );
     }
 }

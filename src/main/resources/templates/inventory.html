@@ -4,6 +4,8 @@
 <head th:replace="~{fragments/header :: header}"></head>
 
 <body>
+
+<!-- Navigation -->
 <nav>
     <ul>
         <li><a th:href="@{/}">Dashboard</a></li>
@@ -11,6 +13,7 @@
         <li><a th:href="@{/inventory}">Manage Inventory</a></li>
         <li><a th:href="@{/order}">Manage Orders</a></li>
         <li><a th:href="@{/reviews}">Reviews</a></li>
+
         <li th:if="${#authentication.name == 'anonymousUser'}">
             <a th:href="@{/login}">Login</a>
         </li>
@@ -22,13 +25,16 @@
     </ul>
 </nav>
 
+<!-- Page Header -->
 <header>
     <h1>Inventory Management</h1>
-    <p class="page-subtext">Add new inventory items, or manage existing stock and pricing.</p>
+    <p class="page-subtext">Add new inventory items or manage existing stock and pricing.</p>
 </header>
 
+<!-- Main Content -->
 <main>
-    <!-- Form wrapped in styled card -->
+
+    <!-- Form -->
     <section class="form-card">
         <form th:action="@{/insertInventoryItem}" method="post" th:object="${inventoryItem}">
             <h2 class="dynamic-form-title">Add or Edit Inventory Item</h2>
@@ -53,7 +59,7 @@
         </form>
     </section>
 
-    <!-- Success message -->
+    <!-- Success Message -->
     <div th:if="${message}" class="alert-success" th:text="${message}"></div>
 
     <!-- Inventory Table -->
@@ -83,7 +89,6 @@
     </table>
 </main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
-
 </html>

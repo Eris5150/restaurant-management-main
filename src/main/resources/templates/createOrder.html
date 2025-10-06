@@ -2,16 +2,23 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}"></head>
 <body>
+
+<!-- =========================== Navigation Bar =========================== -->
 <nav>
     <ul>
+        <!-- Core navigation links -->
         <li><a th:href="@{/}">Dashboard</a></li>
         <li><a th:href="@{/menu}">Manage Menu</a></li>
         <li><a th:href="@{/inventory}">Manage Inventory</a></li>
         <li><a th:href="@{/order}">Manage Orders</a></li>
         <li><a th:href="@{/reviews}">Reviews</a></li>
+
+        <!-- Authentication-based conditional links -->
         <li th:if="${#authentication.name == 'anonymousUser'}">
             <a th:href="@{/login}">Login</a>
         </li>
+
+        <!-- Display logged-in user's info and role -->
         <li th:if="${#authentication.name != 'anonymousUser'}">
             Welcome, <span th:text="${#authentication.principal.username}">User</span>
             (<span th:text="${#authentication.authorities[0].authority.replace('ROLE_', '')}">Role</span>) |
@@ -19,48 +26,58 @@
         </li>
     </ul>
 </nav>
-    <header>
-        <h1>Create New Order</h1>
-        <p>Fill in the details below to create a new order. Select an inventory item and specify the quantity.</p>
-    </header>
-    <main>
-        <form th:action="@{/submitOrder}" method="post" th:object="${order}">
-            <div>
-                <label for="inventoryItem">Select Inventory Item:</label>
-                <select id="inventoryItem" th:field="*{inventoryItem.id}" required>
-                    <option value="" disabled>Select an item</option>
-                    <option th:each="item : ${inventoryItemList}"
-                            th:value="${item.id}"
-                            th:text="${item.name} + ' - $' + ${item.pricePerUnit}"></option>
-                </select>
-            </div>
 
-            <!-- Quantity to Order -->
-            <div>
-                <label for="quantityToOrder">Quantity:</label>
-                <input type="number" id="quantityToOrder" th:field="*{quantityToOrder}" min="1" required>
-            </div>
+<!-- =========================== Page Header =========================== -->
+<header>
+    <h1>Create New Order</h1>
+    <p>Fill in the details below to create a new order. Select an inventory item and specify the quantity.</p>
+</header>
 
-            <!-- Order Date  -->
-            <div>
-                <label for="orderDate">Order Date:</label>
-                <input type="date" id="orderDate" th:field="*{orderDate}" required>
-            </div>
+<!-- =========================== Main Content =========================== -->
+<main>
+    <!-- Order creation form -->
+    <form th:action="@{/submitOrder}" method="post" th:object="${order}">
+        
+        <!-- Select an existing inventory item -->
+        <div>
+            <label for="inventoryItem">Select Inventory Item:</label>
+            <select id="inventoryItem" th:field="*{inventoryItem.id}" required>
+                <option value="" disabled>Select an item</option>
+                <option th:each="item : ${inventoryItemList}"
+                        th:value="${item.id}"
+                        th:text="${item.name} + ' - $' + ${item.pricePerUnit}"></option>
+            </select>
+        </div>
 
-            <!-- Status -->
-            <div>
-                <label for="status">Status:</label>
-                <select id="status" th:field="*{status}" required>
-                    <option value="Pending">Pending</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                </select>
-            </div>
+        <!-- Quantity to order -->
+        <div>
+            <label for="quantityToOrder">Quantity:</label>
+            <input type="number" id="quantityToOrder" th:field="*{quantityToOrder}" min="1" required>
+        </div>
 
-            <button type="submit" class="button">Submit Order</button>
-        </form>
-    </main>
+        <!-- Order date selection -->
+        <div>
+            <label for="orderDate">Order Date:</label>
+            <input type="date" id="orderDate" th:field="*{orderDate}" required>
+        </div>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+        <!-- Order status -->
+        <div>
+            <label for="status">Status:</label>
+            <select id="status" th:field="*{status}" required>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="button">Submit Order</button>
+    </form>
+</main>
+
+<!-- =========================== Footer =========================== -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

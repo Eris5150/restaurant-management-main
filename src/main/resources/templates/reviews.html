@@ -3,6 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}"></head>
 <body>
+
+<!-- =========================== Navigation Bar =========================== -->
 <nav>
     <ul>
         <li><a th:href="@{/}">Dashboard</a></li>
@@ -10,6 +12,7 @@
         <li><a th:href="@{/inventory}">Manage Inventory</a></li>
         <li><a th:href="@{/order}">Manage Orders</a></li>
         <li><a th:href="@{/reviews}">Reviews</a></li>
+        <!-- Auth-aware links: Login for anonymous, username/role + Logout for authenticated -->
         <li th:if="${#authentication.name == 'anonymousUser'}">
             <a th:href="@{/login}">Login</a>
         </li>
@@ -20,28 +23,38 @@
         </li>
     </ul>
 </nav>
-    <header>
-        <h1>Reviews</h1>
-    </header>
-    <main>
-        <table>
-            <thead>
-            <tr>
-                <th>Author</th>
-                <th>Rating</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="review : ${reviews}">
-                <td th:text="${review.getAuthor()}"></td>
-                <td th:text="${review.getRating()}"></td>
-                <td th:if="${review.getDescription() != ''}" th:text="${review.getDescription()}"></td>
-                <td th:if="${review.getDescription() == ''}" th:text="'No description provided for this review'" id="no-desc-review"></td>
-            </tr>
-            </tbody>
-        </table>
-    </main>
-    <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- =========================== Page Header =========================== -->
+<header>
+    <h1>Reviews</h1>
+</header>
+
+<!-- =========================== Main Content =========================== -->
+<main>
+    <!-- Reviews table: lists author, rating, and optional description -->
+    <table>
+        <thead>
+        <tr>
+            <th>Author</th>
+            <th>Rating</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Row binding for each review -->
+        <tr th:each="review : ${reviews}">
+            <td th:text="${review.getAuthor()}"></td>
+            <td th:text="${review.getRating()}"></td>
+            <!-- Show description when provided; otherwise render a friendly fallback -->
+            <td th:if="${review.getDescription() != ''}" th:text="${review.getDescription()}"></td>
+            <td th:if="${review.getDescription() == ''}" th:text="'No description provided for this review'" id="no-desc-review"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<!-- =========================== Footer =========================== -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

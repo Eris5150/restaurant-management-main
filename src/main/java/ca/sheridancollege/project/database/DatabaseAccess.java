@@ -11,14 +11,19 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data access layer using NamedParameterJdbcTemplate.
+ * Encapsulates CRUD operations for menu items, inventory, orders, reviews, and auth.
+ */
 @Repository
 public class DatabaseAccess {
 
     @Autowired
-    protected NamedParameterJdbcTemplate jdbc;
+    protected NamedParameterJdbcTemplate jdbc; // Shared JDBC template
 
     // ----------------------- Menu Item Methods -----------------------
 
+    /** Inserts a new menu item. */
     public void insertMenuItem(MenuItem menuItem) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("itemName", menuItem.getName());
@@ -31,6 +36,7 @@ public class DatabaseAccess {
         jdbc.update(query, namedParameters);
     }
 
+    /** Updates an existing menu item by ID. */
     public void updateMenuItem(MenuItem menuItem) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id", menuItem.getId());
@@ -44,11 +50,13 @@ public class DatabaseAccess {
         jdbc.update(query, namedParameters);
     }
 
+    /** Returns all menu items. */
     public List<MenuItem> getMenuItemList() {
         String query = "SELECT * FROM menu_items ORDER BY id";
         return jdbc.query(query, new MapSqlParameterSource(), new BeanPropertyRowMapper<>(MenuItem.class));
     }
 
+    /** Deletes a menu item by ID. */
     public void deleteMenuItemById(Long id) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id", id);
@@ -56,6 +64,7 @@ public class DatabaseAccess {
         jdbc.update(query, namedParameters);
     }
 
+    /** Retrieves menu items by ID (as list for reuse). */
     public List<MenuItem> getMenuItemListById(Long id) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id", id);
@@ -65,6 +74,7 @@ public class DatabaseAccess {
 
     // ----------------------- Inventory Item Methods -----------------------
 
+    /** Inserts a new inventory item (normalizes name for consistency). */
     public void insertInventoryItem(InventoryItem inventoryItem) {
         String query = "INSERT INTO inventory_items (name, quantity, unit, price_per_unit) VALUES (:name, :quantity, :unit, :pricePerUnit)";
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -75,6 +85,7 @@ public class DatabaseAccess {
         jdbc.update(query, params);
     }
 
+    /** Updates an existing inventory item by ID (keeps naming normalized). */
     public void updateInventoryItem(InventoryItem inventoryItem) {
         String query = "UPDATE inventory_items SET name = :name, quantity = :quantity, unit = :unit, price_per_unit = :pricePerUnit WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -86,23 +97,22 @@ public class DatabaseAccess {
         jdbc.update(query, params);
     }
 
+    /** Returns all inventory items. */
     public List<InventoryItem> getInventoryItemList() {
         String query = "SELECT * FROM inventory_items ORDER BY id";
         return jdbc.query(query, new BeanPropertyRowMapper<>(InventoryItem.class));
     }
 
+    /** Deletes an inventory item by ID. */
     @Transactional
     public void deleteInventoryItemById(Integer id) {
-        // Logically delete the inventory item
         String query = "DELETE FROM inventory_items WHERE id = :id";
-
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
-
         jdbc.update(query, params);
     }
 
-
+    /** Retrieves a single inventory item by ID. */
     public InventoryItem getInventoryItemById(Integer id) {
         String query = "SELECT * FROM inventory_items WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -110,9 +120,9 @@ public class DatabaseAccess {
         return jdbc.queryForObject(query, params, new BeanPropertyRowMapper<>(InventoryItem.class));
     }
 
-
     // ----------------------- Order Methods -----------------------
 
+    /** Returns all orders joined with their inventory item details. */
     public List<Order> getOrderList() {
         String query = "SELECT o.id, o.quantity_to_order, o.order_date, o.status, " +
                 "i.id AS inventoryItem_id, i.name, i.quantity, i.unit, i.price_per_unit " +
@@ -136,6 +146,7 @@ public class DatabaseAccess {
         });
     }
 
+    /** Inserts a new order. */
     public void insertOrder(Order order) {
         String query = "INSERT INTO orders (inventory_item_id, quantity_to_order, order_date, status) " +
                 "VALUES (:inventoryItemId, :quantityToOrder, :orderDate, :status)";
@@ -147,6 +158,7 @@ public class DatabaseAccess {
         jdbc.update(query, params);
     }
 
+    /** Retrieves a single order by ID (with joined inventory item). */
     public Order getOrderById(Integer id) {
         String query = "SELECT o.id, o.quantity_to_order, o.order_date, o.status, " +
                 "i.id AS inventoryItem_id, i.name, i.quantity, i.unit, i.price_per_unit " +
@@ -172,6 +184,7 @@ public class DatabaseAccess {
         });
     }
 
+    /** Updates an order; if status is Completed, updates inventory accordingly. */
     @Transactional
     public void updateOrder(Order order) {
         String query = "UPDATE orders SET inventory_item_id = :inventoryItemId, quantity_to_order = :quantityToOrder, " +
@@ -189,6 +202,7 @@ public class DatabaseAccess {
         }
     }
 
+    /** Adds ordered quantity to inventory when an order is completed. */
     @Transactional
     public void updateInventoryFromOrder(Order order) {
         InventoryItem inventoryItem = order.getInventoryItem();
@@ -210,14 +224,18 @@ public class DatabaseAccess {
 
         updateInventoryItem(existingItem);
     }
+
     // ----------------------- Review Methods -----------------------
+
+    /** Returns all reviews. */
     public List<Review> getReviewsList() {
         String query = "SELECT * FROM reviews ORDER BY id";
-
         return jdbc.query(query, new MapSqlParameterSource(), new BeanPropertyRowMapper<Review>(Review.class));
     }
 
     // ----------------------- Login/Check User Methods -----------------------
+
+    /** Returns role names assigned to a given user ID. */
     public List<String> getRolesById(Long userId){
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         String query = "SELECT sec_role.roleName " + "FROM user_role, sec_role "
@@ -226,13 +244,14 @@ public class DatabaseAccess {
         return jdbc.queryForList(query, namedParameters, String.class);
     }
 
+    /** Finds a user account by email; returns null if not found. */
     public User findUserAccount(String email) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         String query  = "SELECT * FROM sec_user where email = :email";
         namedParameters.addValue("email", email);
         try {
             return jdbc.queryForObject(query, namedParameters, new BeanPropertyRowMapper<>(User.class));
-        }catch (EmptyResultDataAccessException erdae) {
+        } catch (EmptyResultDataAccessException erdae) {
             return null;
         }
     }

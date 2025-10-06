@@ -1,57 +1,134 @@
-Restaurant Management System
+# 🍽️ Restaurant Management System
 
-Project Overview
+A **Spring Boot + Thymeleaf** web application that simulates a simple restaurant management system.  
+It allows administrators to manage menu items, inventory, orders, and customer reviews in one dashboard.  
 
-The Restaurant Management System is a Java-based application designed to streamline restaurant operations. It provides functionalities for menu management, order handling, inventory tracking, and customer reviews. The project follows an object-oriented design approach and is implemented using Java, focusing on backend logic without a graphical interface.
+---
 
-Features
+## 🚀 Features
 
-Menu Management: Add, update, and remove menu items.
+✅ **Authentication & Roles**
+- Two roles: `General Manager (GM)` and `Assistant General Manager (AGM)`  
+- Secure login/logout with Spring Security  
+- Predefined demo accounts included  
 
-Order Handling: Process customer orders efficiently.
+✅ **Menu Management**
+- Add, edit, delete, and list menu items  
+- Categories: appetizers, main courses, desserts, and drinks  
 
-Inventory Tracking: Keep track of ingredient stock levels.
+✅ **Inventory Management**
+- Track inventory quantity, units, and prices  
+- Prevent over-ordering and view all stock items  
 
-Reviews & Feedback: Allow customers to leave feedback on their dining experience.
+✅ **Order Management**
+- Create and update purchase orders for inventory items  
+- View and edit order status (Pending, Completed, Cancelled)  
 
-Technologies Used
+✅ **Reviews Section**
+- Displays customer feedback and ratings  
 
-Programming Language: Java
+---
 
-Database: SQL (for structured data management)
+## 🧩 Tech Stack
 
-Design Pattern: Object-Oriented Programming (OOP)
+| Layer | Technology |
+|-------|-------------|
+| Backend | Spring Boot 3, Spring MVC, Spring Security |
+| Frontend | Thymeleaf, HTML5, CSS3 |
+| Database | H2 (in-memory) |
+| Build Tool | Maven |
+| Language | Java 17+ |
 
-Version Control: Git & GitHub
+---
 
-How to Run the Project
+## 🧠 Project Structure
 
-Clone the repository:
+src/
+├── main/
+│ ├── java/com/example/project/
+│ │ ├── controller/ # Web controllers
+│ │ ├── entity/ # JPA entities
+│ │ ├── repository/ # Spring Data repositories
+│ │ └── security/ # Security config and services
+│ └── resources/
+│ ├── static/css/ # Styles
+│ ├── templates/ # Thymeleaf views
+│ ├── schema.sql # Database schema
+│ ├── data.sql # Sample data
+│ └── application.properties
+└── test/ # Unit tests
 
-git clone https://github.com/kuzminova84/restaurant-management.git
+---
 
-Open the project in an IDE like IntelliJ IDEA or Eclipse.
+## 🧑‍💻 How to Run Locally
 
-Ensure you have Java installed (JDK 8 or later).
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/restaurant-management.git
+cd restaurant-management
 
-Compile and run the Java files.
+2️⃣ Run with Maven
 
-If a database is used, set up the required tables as per the SQL schema provided.
+Make sure you have Java 17+ and Maven installed.
 
-Future Enhancements
+Alternatively, build the JAR:
 
-Implement a graphical user interface (GUI) for better usability.
+mvn clean package
+java -jar target/restaurant-management-0.0.1-SNAPSHOT.jar
 
-Integrate with an online payment system.
+http://localhost:8080
 
-Improve inventory management with automated stock level alerts.
 
-Author
+🔐 Demo Credentials
+Role	Email	Password
+General Manager	general_manager@restaurant.ca
+	12345
+Assistant GM	assistant_manager@restaurant.ca
+	12345
 
-Olesia Kuzminova
-GitHub: @kuzminova84
-Contact: [Your Email Here]
+You can log in with either role and explore the dashboard.
 
-License
+🧰 H2 Console (Optional)
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+You can view the in-memory database from:
+
+http://localhost:8080/h2-console
+
+
+Use these settings:
+
+JDBC URL: jdbc:h2:mem:testdb
+Username: sa
+Password: password
+
+📦 Default Data
+
+The app loads sample data automatically:
+
+20+ Menu Items
+
+50+ Inventory Items
+
+Multiple Orders
+
+Several Customer Reviews
+
+Predefined Users and Roles
+
+📸 Pages Overview
+Page	URL	Description
+Login	/login	Secure login for GM/AGM
+Dashboard	/	Quick overview
+Menu	/menu	Manage menu items
+Inventory	/inventory	Manage stock
+Orders	/order	Manage supply orders
+Reviews	/reviews	View customer feedback
+🧹 Resetting the App
+
+Since it uses an in-memory H2 database, all data resets when the app restarts.
+You can edit data.sql to preload your own demo content.
+
+📄 License
+
+This project is provided for educational and portfolio purposes.
+You’re free to reuse or modify it as long as attribution remains.
