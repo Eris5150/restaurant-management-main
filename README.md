@@ -63,9 +63,10 @@ src/
 ## 🧑‍💻 How to Run Locally
 
 ### 1️⃣ Clone the Repository
-```bash
+
 git clone https://github.com/your-username/restaurant-management.git
 cd restaurant-management
+
 
 2️⃣ Run with Maven
 
